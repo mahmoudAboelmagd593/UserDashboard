@@ -1,0 +1,64 @@
+<div *ngIf="loading$ | async" class="loading-bar">
+    Loading users...
+  </div>
+  
+
+<app-header  (searchTermChanged)="onSearchTermChanged($event)"></app-header>
+
+  <div class="List">
+    <table mat-table [dataSource]="dataSource" class="UserList"  [@cardAnimation]>
+  
+      <!-- Avatar Column -->
+      <ng-container matColumnDef="avatar">
+        <th mat-header-cell *matHeaderCellDef> Avatar </th>
+        <td mat-cell *matCellDef="let element">
+          <img mat-card-avatar [src]="element.avatar" alt="User Avatar" class="avtarImage">
+        </td>
+      </ng-container>
+  
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+  
+      <!-- First Name Column -->
+      <ng-container matColumnDef="first_name">
+        <th mat-header-cell *matHeaderCellDef> First Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.first_name}} </td>
+      </ng-container>
+  
+      <!-- Last Name Column -->
+      <ng-container matColumnDef="last_name">
+        <th mat-header-cell *matHeaderCellDef> Last Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.last_name}} </td>
+      </ng-container>
+  
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+      <!-- Actions Column (View Details Button) -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+    <mat-icon aria-hidden="false"  color="primary"  style="cursor: pointer;" aria-label="View Details" fontIcon="visibility"  [routerLink]="['/user', element.id]"></mat-icon>
+
+        </td>
+      </ng-container>
+      <!-- Rows with Animation and Hover Background -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"  appHoverBackground >
+      </tr>
+    </table>
+  
+    <mat-paginator [length]="(total$ | async)" 
+                   [pageSize]="pageSize"
+                   showFirstLastButtons
+                   (page)="goToPage($event)"
+                   aria-label="Select page of users">
+    </mat-paginator>
+  </div>
+  
+  
